@@ -75,7 +75,7 @@ class PaymentController extends Controller
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
 
-        
+
         try {
 
             $payment->create($this->_api_context);
@@ -137,6 +137,7 @@ class PaymentController extends Controller
         }
 
         $payment = Payment::get($payment_id, $this->_api_context);
+        //dd($payment);
         $execution = new PaymentExecution();
         $execution->setPayerId(Input::get('PayerID'));
 
@@ -146,6 +147,12 @@ class PaymentController extends Controller
         if ($result->getState() == 'approved') {
 
             \Session::put('success', 'Payment success');
+
+            // For test
+            $paymentt = new \App\Payment();
+            $paymentt->payment = "abc";
+            $paymentt->save();
+
             return Redirect::to('/');
 
         }
